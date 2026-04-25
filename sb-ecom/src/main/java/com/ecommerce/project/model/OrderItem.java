@@ -1,0 +1,33 @@
+package com.ecommerce.project.model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Entity
+
+
+@Table(name = "order_items")
+public class OrderItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long orderItemId;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product; // Món hàng đó là gì?
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order; // Nó thuộc về đơn hàng nào?
+
+    private Integer quantity;
+    private double discount;
+    private double orderedProductPrice; // Lưu giá lúc mua để làm bằng chứng
+}
