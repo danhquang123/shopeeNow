@@ -19,3 +19,13 @@ export const deleteAddressApi = async (addressId) => {
     const response = await axiosInstance.delete(`/addresses/${addressId}`);
     return response.data;
 };
+
+export const getAllAddressesApi = async () => {
+    const response = await axiosInstance.get('/addresses');
+    return response.data;
+};
+
+export const getAddressById = async (addressId) => {
+    const response = await axiosInstance.get(`/addresses/${addressId}`);
+    return response.data;
+};

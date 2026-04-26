@@ -23,3 +23,42 @@ export const registerApi = async (username, email, password) => {
         throw new Error(error.response?.data?.message || "Đăng ký thất bại!");
     }
 };
+
+export const getCurrentUsername = async () => {
+    try {
+        const response = await axiosInstance.get("/auth/username");
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || "Không thể lấy tên đăng nhập!");
+    }
+};
+
+export const getUserDetails = async () => {
+    try {
+        const response = await axiosInstance.get("/auth/user");
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || "Không thể lấy thông tin người dùng!");
+    }
+};
+
+export const getUserEmail = async () => {
+    try {
+        const response = await axiosInstance.get("/auth/user/email");
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || "Không thể lấy email người dùng!");
+    }
+};
+
+export const logoutApi = async () => {
+    try {
+        const response = await axiosInstance.post("/auth/signout");
+        // Xóa token sau khi logout thành công
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || "Logout thất bại!");
+    }
+};

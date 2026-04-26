@@ -65,3 +65,37 @@ export const deleteProductApi = async (productId) => {
         throw error.response?.data?.message || "Không thể xóa sản phẩm này";
     }
 };
+
+/**
+ * 5. TÌM KIẾM SẢN PHẨM THEO TỪ KHÓA
+ */
+export const searchProductsByKeyword = async (keyword, pageNumber = 0, pageSize = 10, sortBy = "productId", sortOrder = "asc") => {
+    try {
+        const response = await axiosInstance.get(
+            `/public/products/keyword/${keyword}`,
+            {
+                params: { pageNumber, pageSize, sortBy, sortOrder }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        throw error.response?.data?.message || "Lỗi khi tìm kiếm sản phẩm";
+    }
+};
+
+/**
+ * 6. LẤY SẢN PHẨM THEO DANH MỤC
+ */
+export const getProductsByCategory = async (categoryId, pageNumber = 0, pageSize = 10, sortBy = "productId", sortOrder = "asc") => {
+    try {
+        const response = await axiosInstance.get(
+            `/public/categories/${categoryId}/products`,
+            {
+                params: { pageNumber, pageSize, sortBy, sortOrder }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        throw error.response?.data?.message || "Lỗi khi lấy sản phẩm theo danh mục";
+    }
+};

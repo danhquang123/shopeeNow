@@ -29,12 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", methods = {
-        org.springframework.web.bind.annotation.RequestMethod.GET,
-        org.springframework.web.bind.annotation.RequestMethod.POST,
-        org.springframework.web.bind.annotation.RequestMethod.PUT,
-        org.springframework.web.bind.annotation.RequestMethod.DELETE,
-        org.springframework.web.bind.annotation.RequestMethod.OPTIONS })
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

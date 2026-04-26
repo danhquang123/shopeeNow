@@ -62,19 +62,6 @@ public class WebSecurityConfig implements WebMvcConfigurer { // Implement thêm 
     }
 
     // ✅ CORS Configuration - cho phép frontend gọi API
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**")
-                .allowedOrigins(
-                        "http://localhost:5173", // Dev local
-                        "http://localhost:3000", // Alternative dev
-                        "https://shopee-app-v1-0.onrender.com" // Production frontend
-                )
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(3600);
-    }
 
     // Cấu hình đường dẫn ảnh trực tiếp tại đây
     @Override
@@ -89,12 +76,16 @@ public class WebSecurityConfig implements WebMvcConfigurer { // Implement thêm 
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/images/**", "/api/auth/**", "/api/public/**", "/error").permitAll()
+                        // ✅ ALLOW OPTIONS requests first (CORS preflight)
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/images/**", "/api/auth/**","/openai/**", "/api/public/**", "/error").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/carts").hasRole("ADMIN") // Chỉ Admin mới được xem danh
                                                                                         // sách tất cả giỏ hàng
                         // 3. Dành cho User đã đăng nhập (Đặt hàng, quản lý giỏ hàng cá nhân)
                         .requestMatchers("/api/carts/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/address/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/addresses/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/order/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated());
 
@@ -117,5 +108,9 @@ public class WebSecurityConfig implements WebMvcConfigurer { // Implement thêm 
                 "/swagger-ui/**",
                 "/v3/api-docs/**"));
     }
+
+
+
+
 
 }

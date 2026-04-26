@@ -12,3 +12,16 @@ export const getAllProductsApi = async (pageNumber = 0) => {
         throw error;
     }
 };
+/**
+ * LẤY CHI TIẾT SẢN PHẨM THEO ID
+ * (Hữu ích nếu backend có endpoint này)
+ */
+export const getProductById = async (productId) => {
+    try {
+        const response = await axiosInstance.get(`/public/products/${productId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Lỗi khi lấy chi tiết sản phẩm:", error);
+        throw error;
+    }
+};
