@@ -17,12 +17,10 @@ public class WebConfig implements WebMvcConfigurer {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins(
-                                "http://localhost:3000",
-                                "http://localhost:5173",
                                 "http://localhost:3000/",
-                                "http://localhost:5173/"
-                                // TODO: Thêm frontend URL online ở đây
-                                // VD: "https://your-frontend.vercel.app"
+                                "http://localhost:5173/",
+                                frontendUrl
+
                         )
                         .allowedMethods("GET","POST","PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
