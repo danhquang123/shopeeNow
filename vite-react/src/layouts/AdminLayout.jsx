@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link, useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { AIIcon, AIDialog } from '../components/AIChat';
 import { logout } from '../store/slices/authSlice';
 
 const AdminLayout = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [showAIDialog, setShowAIDialog] = useState(false);
 
     // 1. Chỉ lấy những gì thực sự dùng: user (hiển thị tên) và roles (kiểm tra quyền)
     const { user, roles } = useSelector(state => state.auth);
@@ -52,6 +54,7 @@ const AdminLayout = () => {
                 <header className="bg-white p-3 shadow-sm d-flex justify-content-between align-items-center">
                     <span className="fw-bold text-muted">Hệ thống quản lý ShopHub</span>
                     <div className="d-flex align-items-center gap-3">
+                        <AIIcon onClick={() => setShowAIDialog(true)} />
                         <span className="badge bg-primary">Admin</span>
                         <span>Xin chào, <strong>{user}</strong></span>
                     </div>
@@ -60,6 +63,10 @@ const AdminLayout = () => {
                     <Outlet />
                 </main>
             </div>
+            <AIDialog
+                show={showAIDialog}
+                handleClose={() => setShowAIDialog(false)}
+            />
         </div>
     );
 };

@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
+import { AIIcon, AIDialog } from './AIChat';
 import { logout } from '../store/slices/authSlice';
 import { fetchUserCart } from '../store/slices/cartSlice';
 
@@ -14,6 +15,7 @@ const Header = () => {
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showRegisterModal, setShowRegisterModal] = useState(false);
     const [showUserMenu, setShowUserMenu] = useState(false);
+    const [showAIDialog, setShowAIDialog] = useState(false);
 
     const { isAuthenticated, user, roles = [] } = useSelector((state) => state.auth);
     const cart = useSelector((state) => state.cartStore?.cart || { products: [] });
@@ -48,6 +50,7 @@ const Header = () => {
                     </Link>
 
                     <div className="d-flex align-items-center gap-3">
+                        <AIIcon onClick={() => setShowAIDialog(true)} />
                         <Link to="/cart" className="position-relative text-secondary">
                             🛒 {totalItems > 0 && <span className="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">{totalItems}</span>}
                         </Link>
@@ -80,6 +83,10 @@ const Header = () => {
                 show={showRegisterModal}
                 handleClose={() => setShowRegisterModal(false)}
                 openLogin={() => { setShowRegisterModal(false); setShowLoginModal(true); }}
+            />
+            <AIDialog
+                show={showAIDialog}
+                handleClose={() => setShowAIDialog(false)}
             />
         </>
     );
